@@ -4,11 +4,40 @@
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Todo App</title>
+        <title>To-do App</title>
         <link rel="stylesheet" href="css/style.css">
         <script defer src="src/script.js"></script>
     </head>
     <body>
-        
+        <div class="container">
+            <header>
+                <nav class="navbar">
+                    <a href="#">Listo</a>
+                </nav>
+            </header>
+            <div class="main">
+                <div class="lists">
+                    <span>
+                        <input type="text" id="listNames" placeholder="Enter List Name...">
+                        <button id="add" onclick="makingLists()">+</button>
+                    </span>
+                    <div>
+                    <input type="radio" name="a0" id="a0" class="radio" style="display:none">
+                    <label for="a0">test</label>
+                    </div>
+                    <div>
+                    <input type="radio" name="a0" id="a1" class="radio" style="display:none">
+                    <label for="a1">test</label>
+                    </div>
+                </div>
+                <div class="list-items">
+                    <h1 class="list-name">test</h1>
+                    <div class="item">
+                        <input type="checkbox" name="something" id="item">
+                        <span>first item</span>
+                    </div>
+                </div>
+            </div>
+        </div>
     </body>
 </html>
