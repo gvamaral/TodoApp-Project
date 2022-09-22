@@ -40,7 +40,7 @@ header {
   margin: 5px;
   cursor: pointer;
 }
-.lists div:hover, .lists label:hover, .lists .radio:checked, .lists:checked {
+.lists label:hover, .lists .radio:checked + label {
   background-color: #4d565e;
 }
 

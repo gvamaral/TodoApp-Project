@@ -45,7 +45,7 @@ header {
         margin: 5px;
         cursor: pointer;
     }
-    div:hover, label:hover, .radio:checked, &:checked {
+    label:hover, .radio:checked + label {
         background-color: $lists-hover;
     }
     
