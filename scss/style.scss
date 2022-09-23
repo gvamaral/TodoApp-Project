@@ -55,8 +55,13 @@ header {
     padding: 5px;
     .item {
         display: flex;
-        align-items: center;
+        align-items: flex-start;
+        flex-direction: column;
+        justify-content: center;
         width: 100%;
+        gap: 2px;
+    }
+    .task {
         background-color: $item-background;
         border-radius: 10px;
         padding: 5px;

@@ -22,16 +22,18 @@
                         <input type="text" id="listNames" placeholder="Enter List Name...">
                         <button id="add" onclick="makingLists()">+</button>
                     </span>
-                    <input type="radio" name="a0" id="a0" class="radio" style="display:none">
-                    <label for="a0">test</label>
-                    <input type="radio" name="a0" id="a1" class="radio" style="display:none">
-                    <label for="a1">test</label>
+                    <input type="radio" name="a0" id="0" onclick="selectList(0)" class="radio" style="display:none">
+                    <label for="0">test</label>
+                    <input type="radio" name="a0" id="1" onclick="selectList(1)" class="radio" style="display:none">
+                    <label for="1">frutas</label>
                 </div>
                 <div class="list-items">
                     <h1 id="list-name">test</h1>
                     <div class="item">
-                        <input type="checkbox" name="something" id="item">
-                        <span>first item</span>
+                        <div class="task">
+                            <input type="checkbox" name="something">
+                            <span>first item</span>
+                        </div>
                     </div>
                 </div>
             </div>
