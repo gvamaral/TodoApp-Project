@@ -42,6 +42,7 @@ header {
 }
 .lists label:hover, .lists .radio:checked + label {
   background-color: #4d565e;
+  border-radius: 25px;
 }
 
 .list-items {

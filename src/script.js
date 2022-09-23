@@ -1,3 +1,4 @@
+// Function for adding Lists
 let name = 0
 function makingLists() {
     let input = document.querySelector('#listNames');
@@ -7,4 +8,9 @@ function makingLists() {
     <label for="${name}">${input.value}</label>`
     name += 1
 }
-
+let toDoLists = {listName:'test', listItems:['first item', 'second item']}
+function selectList() {
+    let h1Name = document.querySelector('#list-name')
+    let divForItems = document.querySelector('#item')
+    
+}

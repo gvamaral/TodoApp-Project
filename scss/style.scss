@@ -47,6 +47,7 @@ header {
     }
     label:hover, .radio:checked + label {
         background-color: $lists-hover;
+        border-radius: 25px;
     }
     
 }
