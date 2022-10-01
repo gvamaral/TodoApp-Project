@@ -1,8 +1,32 @@
 // List storage
-let toDoLists = [{listName:'test', 
-listItems:['first item', 'second item']},
-{listName:'frutas',
-listItems:['banana', 'morango']}]
+let toDoLists = [
+    {
+        listName:'test',
+        listItems:[
+            {
+            name:'first item',
+            checked: true
+            },
+            {
+            name:'second item',
+            checked: false
+            }
+        ]
+    },
+    {
+        listName:'frutas',
+        listItems:[
+            {
+                name:'banana',
+                checked: false
+            },
+            {
+                name:'morango',
+                checked: false
+            }
+        ]
+    }
+]
 
 let storedLists = JSON.parse(localStorage.getItem('items'));
 if (storedLists) {
@@ -34,6 +58,7 @@ function displayList() {
     }
 }
 // Selecting lists on click
+let itemID = 0
 function selectList(index) {
     let h1Name = document.querySelector('#list-name')
     let divForItems = document.querySelector('.item')
@@ -43,21 +68,41 @@ function selectList(index) {
     h1Name.innerHTML = toDoLists[index].listName
     itemID = 0
     for (let i = 0; i < toDoLists[index].listItems.length; i++) {
-        divForItems.innerHTML += `<div class="task"><input id="li${itemID}" type="checkbox" name="something">
-        <span>${toDoLists[index].listItems[i]}</span></div>`
+        if (toDoLists[index].listItems[i].checked) {
+            divForItems.innerHTML += `<div class="task"><input id="li${itemID}" onclick="updateChecked(${index}, ${itemID})" type="checkbox" name="something" checked>
+            <span>${toDoLists[index].listItems[i].name}</span></div>`
+        }
+        else {
+            divForItems.innerHTML += `<div class="task"><input id="li${itemID}" onclick="updateChecked(${index}, ${itemID})" type="checkbox" name="something">
+            <span>${toDoLists[index].listItems[i].name}</span></div>`
+        }
         itemID += 1
     }
 }
 // Adding Items
-let itemID = 0
 function makingItems(index) {
     let input = document.querySelector('#addItems');
     let divForItems = document.querySelector('.item');
-    toDoLists[index].listItems.push(input.value);
-    divForItems.innerHTML += `<div class="task"><input id="li${itemID}" type="checkbox" name="something">
+    toDoLists[index].listItems.push({name:input.value, checked:false});
+    divForItems.innerHTML += `<div class="task"><input id="li${itemID}" onclick="updateChecked(${index}, ${itemID})" type="checkbox" name="something">
         <span>${input.value}</span></div>`
     itemID += 1
     saveItems();
+}
+// Changing check or not checked
+function updateChecked(index, itemIndex) {
+    let checkbox =  document.querySelector(`#li${itemIndex}`)
+    toDoLists[index].listItems[itemIndex].checked = checkbox.checked;
+    // fixing error of checkbox stopping to show checked after adding an item
+    checkbox.defaultChecked = toDoLists[index].listItems[itemIndex].checked;
+    saveItems();
+}
+// Removing Items
+function removeItems(index, itemIndex) {
+    let item = document.querySelector(`#li${itemIndex}`);
+    toDoLists[index].listItems.splice(itemIndex, 1);
+    saveItems();
+    selectList(index);
 }
 // Saving to Local Storage
 function saveItems() {
