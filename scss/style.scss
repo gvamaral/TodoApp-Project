@@ -71,4 +71,16 @@ header {
         text-decoration: line-through;
         text-decoration-color: $black;
     }
+    .features {
+        display: flex;
+        align-items: center;
+        gap: 0 100px;
+        .list-name {
+            margin: 0;
+            padding: 22px;
+        }
+        .clear {
+            height: 40px;
+        }
+    }
 }

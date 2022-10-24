@@ -66,5 +66,17 @@ header {
   text-decoration: line-through;
   text-decoration-color: #000;
 }
+.list-items .features {
+  display: flex;
+  align-items: center;
+  gap: 0 100px;
+}
+.list-items .features .list-name {
+  margin: 0;
+  padding: 22px;
+}
+.list-items .features .clear {
+  height: 40px;
+}
 
 /*# sourceMappingURL=style.css.map */

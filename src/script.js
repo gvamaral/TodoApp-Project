@@ -33,55 +33,68 @@ if (storedLists) {
     toDoLists = storedLists;
 }
 // Adding Lists
-let name = 2
+let listIndex = 2
 function makingLists() {
     let input = document.querySelector('#listNames');
     let lists = document.querySelector('.lists');
-    lists.innerHTML += `<input type="radio" name="a0" id="${name}" onclick="selectList(${name})" class="radio" style="display:none">
-    <label for="${name}">${input.value}</label>`
+    lists.innerHTML += `<input type="radio" name="a0" id="ul${listIndex}" onclick="selectList(${listIndex})" class="radio" style="display:none">
+    <label for="ul${listIndex}">${input.value} <button class="trash" title="Delete" onclick="deleteList(${listIndex})"><i class="fa-solid fa-trash"></i></button></label>`
     toDoLists.push({listName:input.value, listItems:[]})
-    name += 1
     saveItems();
+    selectList(listIndex);
+    listIndex += 1
 }
 // Displaying Lists
 function displayList() {
-    name = 0
+    listIndex = 1;
     let lists = document.querySelector('.lists');
     lists.innerHTML = `<span>
     <input type="text" id="listNames" placeholder="Enter List Name...">
-    <button id="add" onclick="makingLists()">+</button>
-    </span>`
-    for (let i = 0; i < toDoLists.length; i++) {
-        lists.innerHTML += `<input type="radio" name="a0" id="${name}" onclick="selectList(${name})" class="radio" style="display:none">
-        <label for="${name}">${toDoLists[name].listName}</label>`
-        name += 1
+    <button id="add" title="Add List" onclick="makingLists()">+</button>
+    </span>
+    <input type="radio" name="a0" id="ul0" onclick="selectList(0)" class="radio" style="display:none" checked>
+    <label for="ul0">${toDoLists[0].listName} <button class="trash" title="Delete" onclick="deleteList(0)"><i class="fa-solid fa-trash"></i></button></label>`
+    for (let i = 1; i < toDoLists.length; i++) {
+        lists.innerHTML += `<input type="radio" name="a0" id="ul${i}" onclick="selectList(${i})" class="radio" style="display:none">
+        <label for="ul${i}">${toDoLists[i].listName} <button class="trash" title="Delete" onclick="deleteList(${i})"><i class="fa-solid fa-trash"></i></button></label>`
+        listIndex++
     }
+}
+// Deleting Lists
+function deleteList(listIndex) {
+    toDoLists.splice(listIndex, 1);
+    displayList();
+    saveItems();
+    selectList(0);
 }
 // Selecting lists on click
 let itemID = 0
 function selectList(index) {
     let h1Name = document.querySelector('#list-name')
     let divForItems = document.querySelector('.item')
+    let features = document.querySelector('.features')
     divForItems.innerHTML = `<div class="task">
-    <input type="text" placeholder="Add item..." id="addItems"><button class="btnItem" id="btnItem" onclick="makingItems(${index})">+</button>
-</div>`
-    h1Name.innerHTML = toDoLists[index].listName
+    <input type="text" placeholder="Add item..." id="addItems"><button class="btnItem" title="Add Item" id="btnItem" onclick="makingItems(${index})">+</button>
+    </div>`
+    features.innerHTML = `<h1 id="list-name">${toDoLists[index].listName}</h1><button class="clear" title="Delete checked items" onclick="clearChecked(${index})"><img src="images/trash-x.png" height=25 width=25></img></button>`
     itemID = 0
     for (let i = 0; i < toDoLists[index].listItems.length; i++) {
         if (toDoLists[index].listItems[i].checked) {
             divForItems.innerHTML += `<div class="task" id="div${itemID}"><input id="li${itemID}" onclick="updateChecked(${index}, ${itemID})" type="checkbox" name="something" checked>
-            <span id="name${itemID}">${toDoLists[index].listItems[i].name}</span>
-            <button class="trash" onclick="removeItems(${index}, ${itemID})"><i class="fa-solid fa-trash"></i></button>
-            <button class="edit" onclick="editItems(${index}, ${itemID})"><i class="fa-solid fa-pencil"></i></button></div>`
+            <span id="name${itemID}">${toDoLists[index].listItems[i].name} </span>
+            <button class="trash" title="Delete" onclick="removeItems(${index}, ${itemID})"><i class="fa-solid fa-trash"></i></button>
+            <button class="edit" title="Edit" onclick="editItems(${index}, ${itemID})"><i class="fa-solid fa-pencil"></i></button></div>`
         }
         else {
             divForItems.innerHTML += `<div class="task" id="div${itemID}"><input id="li${itemID}" onclick="updateChecked(${index}, ${itemID})" type="checkbox" name="something">
-            <span id="name${itemID}">${toDoLists[index].listItems[i].name}</span>
-            <button class="trash" onclick="removeItems(${index}, ${itemID})"><i class="fa-solid fa-trash"></i></button>
-            <button class="edit" onclick="editItems(${index}, ${itemID})"><i class="fa-solid fa-pencil"></i></button></div>`
+            <span id="name${itemID}">${toDoLists[index].listItems[i].name} </span>
+            <button class="trash" title="Delete" onclick="removeItems(${index}, ${itemID})"><i class="fa-solid fa-trash"></i></button>
+            <button class="edit" title="Edit" onclick="editItems(${index}, ${itemID})"><i class="fa-solid fa-pencil"></i></button></div>`
         }
         itemID += 1
     }
+    let selectedList = document.querySelector(`#ul${index}`);
+    selectedList.checked = true
 }
 // Adding Items
 function makingItems(index) {
@@ -89,8 +102,8 @@ function makingItems(index) {
     let divForItems = document.querySelector('.item');
     toDoLists[index].listItems.push({name:input.value, checked:false});
     divForItems.innerHTML += `<div class="task" id="div${itemID}"><input id="li${itemID}" onclick="updateChecked(${index}, ${itemID})" type="checkbox" name="something">
-        <span id="name${itemID}">${input.value}</span><button class="trash" onclick="removeItems(${index}, ${itemID})"><i class="fa-solid fa-trash"></i></button>
-        <button class="edit" onclick="editItems(${index}, ${itemID})"><i class="fa-solid fa-pencil"></i></button></div>`
+        <span id="name${itemID}">${input.value} </span><button class="trash" title="Delete" onclick="removeItems(${index}, ${itemID})"><i class="fa-solid fa-trash"></i></button>
+        <button class="edit" title="Edit" onclick="editItems(${index}, ${itemID})"><i class="fa-solid fa-pencil"></i></button></div>`
     itemID += 1
     saveItems();
 }
@@ -98,42 +111,54 @@ function makingItems(index) {
 function updateChecked(index, itemIndex) {
     let checkbox =  document.querySelector(`#li${itemIndex}`)
     toDoLists[index].listItems[itemIndex].checked = checkbox.checked;
-    // fixing error of checkbox stopping to show checked after adding an item
+    // fixing error(bug) of checkbox stopping to show checked after adding an item
     checkbox.defaultChecked = toDoLists[index].listItems[itemIndex].checked;
     saveItems();
 }
 // Removing Items
 function removeItems(index, itemIndex) {
-    let item = document.querySelector(`#li${itemIndex}`);
     toDoLists[index].listItems.splice(itemIndex, 1);
     saveItems();
     selectList(index);
 }
-// Editing Item names
+// Clear checked items
+function clearChecked(listIndex) {
+    for (let i = 0; i < toDoLists[listIndex].listItems.length; i++) {
+        if (toDoLists[listIndex].listItems[i].checked == true) {
+            removeItems(listIndex, i);
+            i = -1;
+        }
+    }
+    // toDoLists[listIndex].listItems.forEach(element => {
+    //     if (element.checked == true) {
+    //         removeItems(listIndex, toDoLists[listIndex].listItems.indexOf(element));
+    //     }
+    // });
+}
+// Editing Item names, opening input to edit
 function editItems(index, itemIndex) {
     let item = document.querySelector(`#div${itemIndex}`);
     let itemName = document.querySelector(`#name${itemIndex}`)
     item.innerHTML =`<input id="li${itemIndex}" onclick="updateChecked(${index}, ${itemIndex})" type="checkbox" name="something">
-    <span id="name${itemIndex}"><input id="editInput${itemIndex}" type="text" placeholder="${itemName.innerHTML}"></span>
-    <button class="trash" onclick="removeItems(${index}, ${itemIndex})"><i class="fa-solid fa-trash"></i></button>
-    <button class="edit" onclick="editted(${index}, ${itemIndex})"><i class="fa-solid fa-pencil"></i></button>`
+    <span id="name${itemIndex}"><input id="editInput${itemIndex}" type="text" value="${itemName.innerHTML}"></span>
+    <button class="trash" title="Delete" onclick="removeItems(${index}, ${itemIndex})"><i class="fa-solid fa-trash"></i></button>
+    <button class="edit" title="Edit" onclick="editted(${index}, ${itemIndex})"><i class="fa-solid fa-check"></i></button>`
 }
-// Open editor to edit
+// After editting
 function editted(index, itemIndex) {
     let item = document.querySelector(`#div${itemIndex}`);
     let input = document.querySelector(`#editInput${itemIndex}`).value;
     toDoLists[index].listItems[itemIndex].name = input;
     item.innerHTML = `<input id="li${itemIndex}" onclick="updateChecked(${index}, ${itemIndex})" type="checkbox" name="something">
-    <span id="name${itemIndex}">${input}</span>
-    <button class="trash" onclick="removeItems(${index}, ${itemIndex})"><i class="fa-solid fa-trash"></i></button>
-    <button class="edit" onclick="editItems(${index}, ${itemIndex})"><i class="fa-solid fa-pencil"></i></button>`
+    <span id="name${itemIndex}">${input} </span>
+    <button class="trash" title="Delete" onclick="removeItems(${index}, ${itemIndex})"><i class="fa-solid fa-trash"></i></button>
+    <button class="edit" title="Edit" onclick="editItems(${index}, ${itemIndex})"><i class="fa-solid fa-pencil"></i></button>`
     saveItems();
 }
 // Saving to Local Storage
 function saveItems() {
     localStorage.setItem('items', JSON.stringify(toDoLists))
 }
-
 
 function runWhenPageLoads() {
     displayList(); // Shows lists from Local Storage
