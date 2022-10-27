@@ -193,7 +193,6 @@ function delay(time) {
     });
   }
 // Pressing Enter event listeners
-// not working for some reason...
 function Enter() {
     let makeItemInputBox = document.querySelector('#addItems');
     makeItemInputBox.addEventListener("keypress", function(event) {
