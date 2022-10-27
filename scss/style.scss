@@ -1,10 +1,15 @@
-$header-background: #353a3f;
-$lists-background: #6f7c87;
-$lists-hover: #4d565e;
-$item-background: #699dcb;
+$header-background: #2b4330;
+$lists-background: #5c9065;
+$lists-hover: #456e4d;
+$item-background: #456e4d;
+$task-box: #243119;
 $white: #FFF;
 $black: #000;
-
+$shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px,
+rgba(0, 0, 0, 0.12) 0px -12px 30px,
+rgba(0, 0, 0, 0.12) 0px 4px 6px,
+rgba(0, 0, 0, 0.17) 0px 12px 13px,
+rgba(0, 0, 0, 0.09) 0px -3px 5px;
 body {
     margin: 10px;
     padding: 0;
@@ -14,11 +19,7 @@ body {
 .container {
     border: $lists-hover 1px solid;
     background-color: $white;
-    box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px,
-    rgba(0, 0, 0, 0.12) 0px -12px 30px,
-    rgba(0, 0, 0, 0.12) 0px 4px 6px,
-    rgba(0, 0, 0, 0.17) 0px 12px 13px,
-    rgba(0, 0, 0, 0.09) 0px -3px 5px;
+    box-shadow: $shadow;
 }
 a{
     text-decoration: none;
@@ -33,6 +34,8 @@ header {
 }
 .main {
     display: flex;
+    background-color: $item-background;
+    justify-content: center;
 }
 .lists {
     display: flex;
@@ -40,6 +43,11 @@ header {
     background-color: $lists-background;
     color: $white;
     padding: 5px;
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px,
+        rgba(0, 0, 0, 0.12) 0px -12px 30px,
+        rgba(0, 0, 0, 0.12) 0px 4px 6px,
+        rgba(0, 0, 0, 0.17) 0px 12px 13px,
+        rgba(0, 0, 0, 0.09) 0px -3px 5px;
     label, div {
         padding: 15px;
         margin: 5px;
@@ -47,24 +55,88 @@ header {
     }
     label:hover, .radio:checked + label {
         background-color: $lists-hover;
+        box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset,
+        rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
         border-radius: 25px;
+    }
+    label {
+        display: grid;
+    }
+    .listName, .buttons {
+        grid-row-start: 1;
+        grid-row-end: 1;
+        margin: 0;
+        align-self: center;
+    }
+    .buttons {
+        justify-self: flex-end;
+        padding: 0;
     }
 
 }
 .list-items {
     padding: 5px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 2;
+    align-items: center;
+    #list-name {
+        color: $white;
+        text-shadow: $shadow;
+    }
+    .clear {
+        box-shadow: $shadow;
+    }
     .item {
         display: flex;
-        align-items: flex-start;
         flex-direction: column;
         justify-content: center;
+        gap: 10px;
         width: 100%;
-        gap: 2px;
+    }
+    #addItems {
+        width: 100%;
     }
     .task {
-        background-color: $item-background;
+        display: flex;
+        position: relative;
+        left: 0;
+        align-items: center;
+        justify-content: center;
+        background-color: $task-box;
+        color: $white;
         border-radius: 10px;
         padding: 5px;
+        box-shadow: $shadow;
+        transition: all 1s;
+        .checkbox {
+            flex-grow: 2;
+            display: grid;
+            [name="something"] {
+                justify-self: flex-start;
+                grid-row-start: 1;
+                grid-row-end: 1;
+                transition: all 1s;
+            }
+            span {
+                justify-self: flex-end;
+                align-self: center;
+                grid-row-start: 1;
+                grid-row-end: 1;
+                transition: all 1s;
+            }
+        }
+        .buttons {
+            display: flex;
+            flex-grow: 2;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 5px;
+            transition: all 1s;
+        }
+        .editInput {
+            width:100%;
+        }
     }
     input:checked~span {
         color: $lists-hover;
