@@ -1,39 +1,12 @@
 // List storage
-let toDoLists = [
-    {
-        listName:'test',
-        listItems:[
-            {
-            name:'first item',
-            checked: true
-            },
-            {
-            name:'second item',
-            checked: false
-            }
-        ]
-    },
-    {
-        listName:'frutas',
-        listItems:[
-            {
-                name:'banana',
-                checked: false
-            },
-            {
-                name:'morango',
-                checked: false
-            }
-        ]
-    }
-]
+let toDoLists = [];
 
 let storedLists = JSON.parse(localStorage.getItem('items'));
 if (storedLists) {
     toDoLists = storedLists;
 }
 // Adding Lists
-let listIndex = 2
+let listIndex = 0;
 function makingLists() {
     let input = document.querySelector('#createListName');
     let lists = document.querySelector('.lists');
@@ -45,17 +18,26 @@ function makingLists() {
     selectList(listIndex);
     listIndex += 1
 }
-// Displaying Lists
+// Displaying Lists on the left of the page
 function displayList() {
-    listIndex = 1;
     let lists = document.querySelector('.lists');
-    lists.innerHTML = `<span>
-    <input type="text" id="createListName" placeholder="Enter List Name...">
-    <button id="add" title="Add List" onclick="makingLists()">+</button>
-    </span>
-    <input type="radio" name="a0" id="ul0" onclick="selectList(0)" class="radio" style="display:none" checked>
-    <label for="ul0"><p class="listName" id="ln0">${toDoLists[0].listName}</p><div class="buttons"><button class="trash" title="Delete" onclick="deleteList(0)"><i class="fa-solid fa-trash"></i></button>
-    <button class="edit" title="Edit" onclick="editLists(0)"><i class="fa-solid fa-pencil"></i></button></div></label>`
+    if (toDoLists.length != 0) {
+        listIndex = 1;
+        lists.innerHTML = `<span>
+        <input type="text" id="createListName" placeholder="Enter List Name...">
+        <button id="add" title="Add List" onclick="makingLists()">+</button>
+        </span>
+        <input type="radio" name="a0" id="ul0" onclick="selectList(0)" class="radio" style="display:none" checked>
+        <label for="ul0"><p class="listName" id="ln0">${toDoLists[0].listName}</p><div class="buttons"><button class="trash" title="Delete" onclick="deleteList(0)"><i class="fa-solid fa-trash"></i></button>
+        <button class="edit" title="Edit" onclick="editLists(0)"><i class="fa-solid fa-pencil"></i></button></div></label>`
+    }
+    else {
+        listIndex = 0;
+        lists.innerHTML = `<span>
+        <input type="text" id="createListName" placeholder="Enter List Name...">
+        <button id="add" title="Add List" onclick="makingLists()">+</button>
+        </span>`
+    }
     for (let i = 1; i < toDoLists.length; i++) {
         lists.innerHTML += `<input type="radio" name="a0" id="ul${i}" onclick="selectList(${i})" class="radio" style="display:none">
         <label for="ul${i}"><p class="listName" id="ln${i}">${toDoLists[i].listName}</p><div class="buttons"><button class="trash" title="Delete" onclick="deleteList(${i})"><i class="fa-solid fa-trash"></i></button>
@@ -65,10 +47,17 @@ function displayList() {
 }
 // Deleting Lists
 function deleteList(listIndex) {
+    let features = document.querySelector('.features');
+    let divForItems = document.querySelector('.item');
     toDoLists.splice(listIndex, 1);
     displayList();
     saveItems();
-    selectList(0);
+    if (toDoLists.length != 0) {selectList(0);}
+    else{
+        features.innerHTML = "";
+        divForItems.innerHTML = `<div class="task" id="empty"><p>&lt;--- Create new List to start</p></div>`;
+        listIndex = 0;
+    }
 }
 // Selecting lists on click
 let itemID = 0
@@ -78,7 +67,9 @@ function selectList(index) {
     divForItems.innerHTML = `<div class="task">
     <input type="text" placeholder="Add item..." id="addItems"><button class="btnItem" title="Add Item" id="btnItem" onclick="makingItems(${index})">+</button>
     </div>`
-    features.innerHTML = `<h1 id="list-name">${toDoLists[index].listName}</h1><button class="clear" title="Delete checked items" onclick="clearChecked(${index})"><img src="images/trash-x.png" height=25 width=25></img></button>`
+    if (toDoLists.length != 0) {
+        features.innerHTML = `<h1 id="list-name">${toDoLists[index].listName}</h1><button class="clear" title="Delete checked items" onclick="clearChecked(${index}, ${itemID})"><img src="images/trash-x.png" height=25 width=25></img></button>`
+    }
     itemID = 0
     for (let i = 0; i < toDoLists[index].listItems.length; i++) {
         if (toDoLists[index].listItems[i].checked) {
@@ -132,11 +123,27 @@ async function removeItems(index, itemIndex) {
     selectList(index);
 }
 // Clear checked items
-async function clearChecked(listIndex) {
+function clearChecked(listIndex, itemIndex) {
+    // animation
+    // function animation(itemIndex, func) {
+    //     let item = document.querySelector(`#div${itemIndex}`);
+    //     item.addEventListener("animationend", func);
+    //     item.style.left = "110%";
+    // }
+// // for loop for each object in the array listItems
+//     for (let item in toDoLists[listIndex].listItems) {
+//         if (item.checked) {
+//             animation(itemIndex, () => {
+//                 arr = arr.filter( i => i !== item );
+//             })
+//         }
+//     }
     for (let i = 0; i < toDoLists[listIndex].listItems.length; i++) {
         if (toDoLists[listIndex].listItems[i].checked == true) {
-            removeItems(listIndex, i);
-            i = -1;
+            // animation(itemIndex, () => {
+                removeItems(listIndex, i);
+                i = -1;
+            // })
         }
     }
 }
@@ -171,7 +178,7 @@ function editLists(index) {
 // After editting List
 function listEditted(index) {
     let list = document.querySelector(`[for="ul${index}"]`);
-    let h1Name = document.querySelector('#list-name')
+    let h1Name = document.querySelector('#list-name');
     let input = document.querySelector(`#editListInput${index}`).value;
     toDoLists[index].listName = input;
     list.innerHTML =`<p id="ln${index}" class="listName">${input}</p>
@@ -211,7 +218,7 @@ function Enter() {
 };
 function runWhenPageLoads() {
     displayList(); // Shows lists from Local Storage
-    selectList(0); // Shows items from Local Storage for first list when page loads
+    if (toDoLists.length != 0) {selectList(0);} // Shows items from Local Storage for first list when page loads
 };
 
 window.onload = runWhenPageLoads;

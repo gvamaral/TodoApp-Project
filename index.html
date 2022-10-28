@@ -20,44 +20,16 @@
             <div class="main">
                 <div class="lists">
                     <span>
-                        <input type="text" id="listNames" placeholder="Enter List Name...">
+                        <input type="text" id="createListName" placeholder="Enter List Name...">
                         <button id="add" onclick="makingLists()">+</button>
                     </span>
-                    <input type="radio" name="a0" id="0" onclick="selectList(0)" class="radio" style="display:none">
-                    <label for="0">
-                        test
-                        <button class="trash" onclick="deleteList(0)">
-                            <i class="fa-solid fa-trash"></i>
-                        </button>
-                    </label>
-                    <input type="radio" name="a0" id="1" onclick="selectList(1)" class="radio" style="display:none">
-                    <label for="1">
-                        frutas
-                        <button class="trash" onclick="deleteList(1)">
-                            <i class="fa-solid fa-trash"></i>
-                        </button>
-                    </label>
                 </div>
                 <div class="list-items">
                     <div class="features">
-                        <h1 id="list-name">test</h1>
                     </div>
                     <div class="item">
-                        <div class="task">
-                            <input type="text" placeholder="Add item..." id="addItems">
-                            <button class="btnItem" id="btnItem" onclick="makingItems(0)">+</button>
-                        </div>
-                        <div class="task" id="div0">
-                            <input id="li0" onclick="updateChecked(0, 0)" type="checkbox" name="something" checked="">
-                            <span id="name0">first item</span>
-                            <button class="trash" onclick="removeItems(0, 0)"><i class="fa-solid fa-trash"></i></button>
-                            <button class="edit" onclick="editItems(0, 0)"><i class="fa-solid fa-pencil"></i></button>
-                        </div>
-                        <div class="task" id="div1">
-                            <input id="li1" onclick="updateChecked(0, 1)" type="checkbox" name="something">
-                            <span id="name1">second item</span>
-                            <button class="trash" onclick="removeItems(0, 1)"><i class="fa-solid fa-trash"></i></button>
-                            <button class="edit" onclick="editItems(0, 1)"><i class="fa-solid fa-pencil"></i></button>
+                        <div class="task" id="empty">
+                            <p>&lt;--- Create new List to start</p>
                         </div>
                     </div>
                 </div>
